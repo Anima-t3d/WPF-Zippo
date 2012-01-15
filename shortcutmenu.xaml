@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="shortcutmenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <Button Height="23" HorizontalAlignment="Left" Margin="5,5,0,5" Name="Button1" VerticalAlignment="Top" Width="28" Padding="2" >
+            <Image Source="/WPF_fetch_webimage_browser;component/Images/Home-32.png"></Image>
+        </Button>
+
+        <Button Height="23" HorizontalAlignment="Left" Margin="5" Name="Button2" VerticalAlignment="Top" Width="28" Padding="2">
+            <Image Source="/WPF_fetch_webimage_browser;component/Images/Search-32.png"></Image>
+        </Button>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>
