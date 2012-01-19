@@ -1,0 +1,69 @@
+ID="1310" Abyss™
+ID="1301" Antique Brass™ 
+ID="1399" Antique Silver™ 
+ID="1312" Black
+ID="1398" Black Chrome
+ID="1267" Black Crackle™
+
+ID="1251" Black Ice®
+ID="1256" Black Matte
+ID="1277" BLU2™ 
+ID="1258" Brushed Brass
+ID="1253" Brushed Chrome
+
+ID="1248" Brushed Sterling Silver
+ID="1328" Camouflage
+ID="1278" Candy Apple Red™
+ID="1273" Cerulean™
+ID="1315" Chameleon™
+
+ID="1306" Chrome Arch
+ID="1319" Cream Matte
+ID="1317" Diagonal Weave
+ID="1276" Dusted Chrome™
+ID="1279" Ebony™
+
+ID="1260" Gold Dust™
+ID="1326" Golden Rod
+ID="1263" Green Matte
+ID="1270" Hand Satin Sterling Silver
+ID="1308" Harvest Bronze
+ID="1307" Herringbone Sweep
+
+ID="1257" High Polish Brass
+ID="1254" High Polish Chrome
+ID="1377" High Polish Solid Gold
+ID="1250" High Polish Sterling Silver
+ID="1261" Iron Stone™
+ID="1311" Lemon ™
+
+ID="1282" Lemon Lime Matte
+ID="1281" Licorice Matte™
+ID="1321" Licorice™
+ID="1318" Linen Weave
+ID="1320" Lurid™
+
+ID="1322" Meadow™
+ID="1384" Mint Green
+ID="1327" Moss Green Matte
+ID="1269" Navy Matte
+ID="1314" Orange
+ID="1265" Orange Matte
+
+ID="1313" Other
+ID="1268" Pink Matte
+ID="1385" Purple Matte
+ID="1266" Red Matte
+ID="1264" Royal Blue Matte
+ID="1275" Sable™
+
+ID="1259" Sapphire™
+ID="1249" Satin Chrome™
+ID="1274" Shadow™
+ID="1252" Spectrum™
+ID="1255" Street Chrome™
+
+ID="1283" Toffee™
+ID="1271" Vertical Chrome™
+ID="1272" Vertical Gold™
+ID="1262" White Matte

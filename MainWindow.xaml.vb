@@ -42,7 +42,13 @@ Class MainWindow
                             End If
                         Case "description"
                             outputString &= "Finishing: " & elem.innerHTML.Split("<br>")(1).Substring(4) & Environment.NewLine
-                            outputString &= "Description: " & elem.innerHTML.Replace("<BR>", Environment.NewLine) & Environment.NewLine
+                            Dim tempstr As String = ""
+                            Dim description As String = elem.innerHTML.Replace("<BR>", Environment.NewLine)
+                            Dim lines As Array = Split(elem.innerHTML, "<BR>")
+                            For ii As Integer = 2 To lines.Length - 1
+                                tempstr &= lines(ii) & Environment.NewLine
+                            Next
+                            outputString &= "Description: " & Environment.NewLine & tempstr & Environment.NewLine
                     End Select
                 End If
             Next

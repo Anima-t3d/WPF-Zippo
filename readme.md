@@ -5,9 +5,9 @@ is a **VS Project** the point of this project is to use it as a prototype for th
 
 ---
 Features:
--Built in browser
--Search page
--Collect data from page
--Universal XAML stylesheet
--Webpage fluff
+* Built in browser
+* Search page
+* Collect data from page
+* Universal XAML stylesheet
+* Webpage fluff
 
