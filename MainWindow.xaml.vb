@@ -1,10 +1,16 @@
 ﻿Imports mshtml
 Class MainWindow
     ' Make an event capable shortcutmenu
-    WithEvents shortcutmenu As shortcutmenu '= New shortcutmenu()
+    WithEvents shortcutmenu As shortcutmenu
+    Dim zippo As New Zippo
     Private Sub btnExternal_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs)
         Dim outputString As String = ""
         Dim productIdCounter As Integer = 0
+        Dim tempstr As String = ""
+        Dim imgsrc As String = ""
+        Dim previousclass As String = ""
+        'reset image to prevent collecting previous zippo images
+        zippo.Images.Clear()
         'fetch image url
         'check if document exists
         If myBrowser.Document IsNot Nothing Then
@@ -13,7 +19,7 @@ Class MainWindow
             'if the element exists
             If element IsNot Nothing Then
                 'get the image location
-                Dim imgsrc As String = element.GetAttribute("src")
+                imgsrc = element.GetAttribute("src")
                 If imgsrc IsNot Nothing Then
                     outputString &= " imgUrl: " & imgsrc & Environment.NewLine
                 End If
@@ -21,9 +27,36 @@ Class MainWindow
                 'no element found
                 outputString &= "imgUrl: No suited image url found" & Environment.NewLine
             End If
-
-            Dim currentDocument As mshtml.IHTMLDocument = myBrowser.Document
+            Dim currentDocument As mshtml.IHTMLDocument2 = myBrowser.Document
             Dim Elems As IHTMLElementCollection
+
+            Elems = currentDocument.links
+            'loop through all links on the page and filter out the item images
+            
+            For Each elem As IHTMLElement In Elems
+                If elem.className IsNot Nothing Then
+                    Dim cssClass As String = elem.className
+                    Select Case cssClass.Split(" ")(0)
+                        Case "altView"
+                            imgsrc = elem.getAttribute("href")
+                            If imgsrc IsNot Nothing Then
+                                'tempstr &= imgsrc & Environment.NewLine
+                                zippo.addImage(imgsrc)
+                            End If
+                    End Select
+                    If previousclass = "altView" AndAlso cssClass <> "altView" Then
+                        'got consecutive images, no need to keep searching 
+                        'better use while loop
+                        Exit For
+                    End If
+                End If
+            Next
+            outputString &= "Images: " & Environment.NewLine
+            For ii As Integer = 0 To zippo.Images.Count - 1
+                outputString &= zippo.Images(ii).ToString & Environment.NewLine
+            Next
+            'Dim currentDocument As mshtml.IHTMLDocument = myBrowser.Document
+            'Dim Elems As IHTMLElementCollection
 
             Elems = currentDocument.body.all
             'loop through all gathered elements on the page and filter out the item specs
@@ -32,32 +65,40 @@ Class MainWindow
                     Dim itemprop As Object = elem.getAttribute("itemprop")
                     Select Case itemprop.ToString
                         Case "name"
-                            outputString &= "Category: " & elem.innerText & Environment.NewLine
+                            zippo.Category = elem.innerText
                         Case "offers"
-                            outputString &= "Price: " & elem.innerText & Environment.NewLine
+                            zippo.Price = elem.innerText
                         Case "productID"
                             If productIdCounter < 1 Then
-                                outputString &= "productID: " & elem.innerText & Environment.NewLine
+                                zippo.PUID = String.Format("{0:c}", elem.innerText)
                                 productIdCounter += 1
                             End If
                         Case "description"
-                            outputString &= "Finishing: " & elem.innerHTML.Split("<br>")(1).Substring(4) & Environment.NewLine
-                            Dim tempstr As String = ""
+                            zippo.Finishing = elem.innerHTML.Split("<br>")(1).Substring(4)
+                            tempstr = ""
                             Dim description As String = elem.innerHTML.Replace("<BR>", Environment.NewLine)
                             Dim lines As Array = Split(elem.innerHTML, "<BR>")
                             For ii As Integer = 2 To lines.Length - 1
                                 tempstr &= lines(ii) & Environment.NewLine
                             Next
-                            outputString &= "Description: " & Environment.NewLine & tempstr & Environment.NewLine
+                            zippo.Description = tempstr
                     End Select
                 End If
             Next
-            outputString &= "Uri: " & txtLoad.Text & Environment.NewLine
+            zippo.Url = New Uri(txtLoad.Text)
             Try
                 Dim parameters As String = txtLoad.Text.Split("?")(1)
-                outputString &= "Id: " & parameters.Split("=")(1) & Environment.NewLine
+                zippo.ZID = parameters.Split("=")(1)
             Catch
             End Try
+            'retrieving zippo properties
+            outputString &= "Category: " & zippo.Category & Environment.NewLine
+            outputString &= "Price: " & zippo.Price & Environment.NewLine
+            outputString &= "productID: " & zippo.PUID & Environment.NewLine
+            outputString &= "Finishing: " & zippo.Finishing & Environment.NewLine
+            outputString &= "Description: " & Environment.NewLine & zippo.Description & Environment.NewLine
+            outputString &= "Uri: " & zippo.Url.ToString & Environment.NewLine
+            outputString &= "Id: " & zippo.ZID & Environment.NewLine
             MessageBox.Show(outputString)
         End If
 
