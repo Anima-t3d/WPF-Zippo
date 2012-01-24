@@ -72,7 +72,7 @@
     <Compile Include="shortcutmenu.xaml.vb">
       <DependentUpon>shortcutmenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Zippo.vb" />
+    <Compile Include="clsZippo.vb" />
     <Page Include="BlackCrystal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

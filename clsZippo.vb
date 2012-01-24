@@ -1,4 +1,4 @@
-﻿Public Class Zippo
+﻿Public Class clsZippo
     Private _price As Decimal
     Private _imagesList As New ArrayList
 

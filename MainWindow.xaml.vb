@@ -1,8 +1,7 @@
 ﻿Imports mshtml
 Class MainWindow
-    ' Make an event capable shortcutmenu
-    WithEvents shortcutmenu As shortcutmenu
-    Dim zippo As New Zippo
+    Dim zippo As New clsZippo
+    Public Property CurrentPage As Uri
     Private Sub btnExternal_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs)
         Dim outputString As String = ""
         Dim productIdCounter As Integer = 0
@@ -40,7 +39,6 @@ Class MainWindow
                         Case "altView"
                             imgsrc = elem.getAttribute("href")
                             If imgsrc IsNot Nothing Then
-                                'tempstr &= imgsrc & Environment.NewLine
                                 zippo.addImage(imgsrc)
                             End If
                     End Select
@@ -51,12 +49,6 @@ Class MainWindow
                     End If
                 End If
             Next
-            outputString &= "Images: " & Environment.NewLine
-            For ii As Integer = 0 To zippo.Images.Count - 1
-                outputString &= zippo.Images(ii).ToString & Environment.NewLine
-            Next
-            'Dim currentDocument As mshtml.IHTMLDocument = myBrowser.Document
-            'Dim Elems As IHTMLElementCollection
 
             Elems = currentDocument.body.all
             'loop through all gathered elements on the page and filter out the item specs
@@ -85,13 +77,17 @@ Class MainWindow
                     End Select
                 End If
             Next
-            zippo.Url = New Uri(txtLoad.Text)
+            zippo.Url = CurrentPage
             Try
-                Dim parameters As String = txtLoad.Text.Split("?")(1)
+                Dim parameters As String = CurrentPage.ToString.Split("?")(1)
                 zippo.ZID = parameters.Split("=")(1)
             Catch
             End Try
             'retrieving zippo properties
+            outputString &= "Images: " & Environment.NewLine
+            For ii As Integer = 0 To zippo.Images.Count - 1
+                outputString &= zippo.Images(ii).ToString & Environment.NewLine
+            Next
             outputString &= "Category: " & zippo.Category & Environment.NewLine
             outputString &= "Price: " & zippo.Price & Environment.NewLine
             outputString &= "productID: " & zippo.PUID & Environment.NewLine
@@ -115,7 +111,7 @@ Class MainWindow
     Private Sub Search(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles Shortcutmenu1.search
         Me.btnInternal_Click(sender, e)
     End Sub
-    ' Handle the search event 
+    ' Handle the collect event 
     'IMPORTANT: REFERENCE TO NAME INSTEAD OF CLASS!!!
     Private Sub Collect(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles Shortcutmenu1.collect
         Me.btnExternal_Click(sender, e)
@@ -123,7 +119,8 @@ Class MainWindow
 
     Private Sub myBrowser_Navigating(ByVal sender As System.Object, ByVal e As System.Windows.Navigation.NavigatingCancelEventArgs) Handles myBrowser.Navigating
         'load uri to text
-        txtLoad.Text = e.Uri.ToString
+        CurrentPage = e.Uri
+        txtLoad.Text = CurrentPage.ToString
     End Sub
 
     Private Sub myBrowser_LoadCompleted(ByVal sender As System.Object, ByVal e As System.Windows.Navigation.NavigationEventArgs) Handles myBrowser.LoadCompleted
@@ -143,9 +140,11 @@ Class MainWindow
             'hiding header
             Dim header As IHTMLElement = myBrowser.Document.GetElementById("hdrSite")
             header.style.display = "none"
+            header.innerHTML = ""
             'hiding irritating sliced malfunctioning footer
             Dim footer As IHTMLElement = myBrowser.Document.GetElementById("ftrSite")
             footer.style.display = "none"
+            footer.innerHTML = ""
 
             'hiding sidebar
             Dim currentDocument As mshtml.IHTMLDocument = myBrowser.Document
