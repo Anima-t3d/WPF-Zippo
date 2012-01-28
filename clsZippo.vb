@@ -44,7 +44,7 @@
         If Value.Length = 0 Then
             Return 0
         Else
-            Value = Value.Replace("$", "€").Replace("£", "€").Replace(".", ",")
+            Value = Value.Replace(",", "").Replace("$", "€").Replace("£", "€").Replace(".", ",")
             Return Decimal.Parse(Value.Replace(" ", ""), System.Globalization.NumberStyles.Any Or System.Globalization.NumberStyles.AllowCurrencySymbol _
                              Or System.Globalization.NumberStyles.AllowThousands Or System.Globalization.NumberStyles.AllowDecimalPoint)
         End If
